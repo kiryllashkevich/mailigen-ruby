@@ -44,32 +44,37 @@ describe Mailigen::Api do
 
     end
 
-    describe "call" do
+    if valid_mailigen_obj
+      describe "call" do
 
-      describe "ping" do
+        describe "ping" do
 
-        context "invalide mailigen key" do
-          it "returns error" do
-            resp = @invalid_mailigen.call :ping
-            expect(resp["code"]).to eq(104)
-            expect(resp["error"]).to eq("Invalid Mailigen API Key: fookey")
+          context "invalide mailigen key" do
+            it "returns error" do
+              resp = @invalid_mailigen.call :ping
+              expect(resp["code"]).to eq(104)
+              expect(resp["error"]).to eq("Invalid Mailigen API Key: fookey")
+            end
           end
+
+          context "valide mailigen key" do
+            it "returns OK" do
+              resp = @mailigen.call :ping
+              expect(resp).to eq("Everything's Ok!")
+            end
+          end
+
         end
 
-        context "valide mailigen key" do
-          it "returns OK" do
-            resp = @mailigen.call :ping
-            expect(resp).to eq("Everything's Ok!")
-          end
-        end
+        describe "lists" do
+          context "create" do
+            it "returns list id" do
+              resp = @mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
+              expect(resp).not_to be(nil)
 
-      end
-
-      describe "lists" do
-        context "create" do
-          it "returns list id" do
-            resp = @mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
-            expect(resp).not_to be(nil)
+              resp = @mailigen.call :listDelete
+              puts resp
+            end
           end
         end
       end
