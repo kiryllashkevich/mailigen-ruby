@@ -31,14 +31,14 @@ describe Mailigen::Api do
 
         it "return url" do
           obj = Mailigen::Api.new "fookey", true
-          expect(obj.api_url).to eq("https://api.mailigen.com/1.1/?output=json")
+          expect(obj.api_url).to eq("https://api.mailigen.com/1.3/?output=json")
         end
 
       end
 
       context "default (unsecure)" do
         it "return url" do
-          expect(@invalid_mailigen.api_url).to eq("http://api.mailigen.com/1.1/?output=json")
+          expect(@invalid_mailigen.api_url).to eq("http://api.mailigen.com/1.3/?output=json")
         end
       end
 
@@ -67,15 +67,68 @@ describe Mailigen::Api do
         end
 
         describe "lists" do
-          context "create" do
-            it "returns list id" do
-              resp = @mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
-              expect(resp).not_to be(nil)
+          before(:all) do
+            # Creates list
+            create_list_params = {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
 
-              resp = @mailigen.call :listDelete
-              puts resp
+            resp = @mailigen.call(:listCreate, create_list_params)
+            @list_id = resp
+
+            @lists_with_email = {
+              "0" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'plain', NAME: 'Foo'}, 
+              "1" => {EMAIL: "bar@sample.com", EMAIL_TYPE: 'html',  NAME: 'Bar'}, 
+              "2" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'html',  NAME: 'Foo Dublicate'}
+            }
+          end
+          after(:all) do
+            # Removes list
+            @mailigen.call :listDelete, {id: @list_id}
+          end
+
+          context "createList" do
+            it "returns list id" do
+              expect(@list_id).not_to be(nil)
             end
           end
+
+          context "lists" do
+            it "returns lists containg testListRspec" do
+              exists = false
+              resp = @mailigen.call :lists
+              selected_lists = resp.select { |list| list["name"] == "testListRspec" }
+              expect(selected_lists.size).to eq(1)
+            end
+          end
+
+          context "listMergeVars" do
+            it "returns array with vars" do
+              resp = @mailigen.call :listMergeVars, {id: @list_id}
+              expect(resp.size).to eq(3)
+            end
+          end
+
+          context "listMergeVarAdd" do
+            it "returns true" do
+              params = {id: @list_id, tag: "FOO", name: "FooName"}
+              resp = @mailigen.call :listMergeVarAdd, params
+              expect(resp).to eq("true")
+            end
+          end
+
+          context "listBatchSubscribe" do
+            it "returns success count and fail count" do
+              # Add name var
+              params = {id: @list_id, tag: "NAME", name: "Name of user"}
+              resp = @mailigen.call :listMergeVarAdd, params
+
+              params = {id: @list_id, "batch" => @lists_with_email, double_optin: false}
+
+              resp = @mailigen.call :listBatchSubscribe, params
+              expect(resp["success_count"]).to eq(3)
+              expect(resp["error_count"]).to eq(0)
+            end
+          end
+
         end
       end
 

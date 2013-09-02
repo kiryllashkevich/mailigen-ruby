@@ -17,7 +17,7 @@ describe Mailigen do
     end
 
     it "has api_version" do
-      expect(Mailigen::api_version).to eq("1.1")
+      expect(Mailigen::api_version).to eq("1.3")
     end
 
   end

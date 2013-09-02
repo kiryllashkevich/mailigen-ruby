@@ -31,7 +31,9 @@ module Mailigen
     #
     def call method, params = {}
       url = "#{api_url}&method=#{method}"
+      
       params = {apikey: self.api_key}.merge params
+      
       resp = post_api(url, params)
       begin
         return JSON.parse(resp)
@@ -61,8 +63,8 @@ module Mailigen
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = self.secure
-
-        res = http.post(uri.request_uri, params.to_query)
+        form_params = params.to_query
+        res = http.post(uri.request_uri, form_params)
         res.body
       end
 
