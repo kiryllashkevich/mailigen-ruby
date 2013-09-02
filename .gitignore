@@ -16,3 +16,4 @@ spec/keys
 test/tmp
 test/version_tmp
 tmp
+.coveralls.yml

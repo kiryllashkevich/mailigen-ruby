@@ -1,6 +1,8 @@
 # Mailigen
 
 [![Gem Version](https://badge.fury.io/rb/mailigen.png)](http://badge.fury.io/rb/mailigen)
+[![Build Status](https://travis-ci.org/artursbraucs/mailigen.png?branch=master)](https://travis-ci.org/artursbraucs/mailigen)
+[![Coverage Status](https://coveralls.io/repos/artursbraucs/mailigen/badge.png)](https://coveralls.io/r/artursbraucs/mailigen)
 
 API wrapper for mailigen.com .
 

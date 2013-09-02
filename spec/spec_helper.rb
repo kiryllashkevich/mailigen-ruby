@@ -1,6 +1,8 @@
 require 'mailigen'
-
 require 'rspec/autorun'
+require 'coveralls'
+
+Coveralls.wear!
 
 RSpec.configure do |config|
 end
