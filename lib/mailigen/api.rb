@@ -1,7 +1,6 @@
 require 'uri'
 require 'net/http'
 require 'net/https'
-require "addressable/uri"
 require 'json'
 require 'active_support/core_ext/object'
 
@@ -11,10 +10,9 @@ module Mailigen
     attr_accessor :api_key, :secure
 
     # Initialize API wrapper. 
-    # Options:
     #
-    # api_key - from mailigen.com . Required.
-    # secure - use SSL. By default FALSE
+    # @param api_key - from mailigen.com . Required.
+    # @param secure - use SSL. By default FALSE
     # 
     def initialize api_key = nil, secure = false
       self.api_key = api_key
@@ -22,6 +20,15 @@ module Mailigen
       raise NoApiKeyError, "You must have Mailigen API key." unless self.api_key
     end
 
+    # Call Mailigen api method (Documented in http://dev.mailigen.com/display/AD/Mailigen+API )
+    #
+    # @param method - method name
+    # @param params - params if required for API
+    # 
+    # @return
+    # JSON, String data if all goes well.
+    # Exception if somethnigs goes wrong.
+    #
     def call method, params = {}
       url = "#{api_url}&method=#{method}"
       params = {apikey: self.api_key}.merge params
@@ -34,7 +41,7 @@ module Mailigen
     end
 
 
-    # Returns default api url with version included
+    # @return default api url with version included
     #
     def api_url
       protocol = self.secure ? "https" : "http"
@@ -45,6 +52,11 @@ module Mailigen
 
       # All api calls throught POST method.
       #
+      # @param url - url to post
+      # @param params - params in hash
+      #
+      # @return
+      # response body
       def post_api url, params
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)

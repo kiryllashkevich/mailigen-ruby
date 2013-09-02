@@ -1,5 +1,7 @@
 # Mailigen
 
+[![Gem Version](https://badge.fury.io/rb/mailigen.png)](http://badge.fury.io/rb/mailigen)
+
 API wrapper for mailigen.com .
 
 ## Installation

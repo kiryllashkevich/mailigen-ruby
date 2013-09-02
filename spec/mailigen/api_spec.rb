@@ -46,7 +46,7 @@ describe Mailigen::Api do
 
     describe "call" do
 
-      context "ping" do
+      describe "ping" do
 
         context "invalide mailigen key" do
           it "returns error" do
@@ -65,10 +65,12 @@ describe Mailigen::Api do
 
       end
 
-      context "creates list" do
-        it "returns list id" do
-          resp = @mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
-          expect(resp).not_to be(nil)
+      describe "lists" do
+        context "create" do
+          it "returns list id" do
+            resp = @mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
+            expect(resp).not_to be(nil)
+          end
         end
       end
 
