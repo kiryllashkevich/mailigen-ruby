@@ -121,7 +121,7 @@ describe Mailigen::Api do
               params = {id: @list_id, tag: "NAME", name: "Name of user"}
               resp = @mailigen.call :listMergeVarAdd, params
 
-              params = {id: @list_id, "batch" => @lists_with_email, double_optin: false}
+              params = {id: @list_id, batch: @lists_with_email, double_optin: false}
 
               resp = @mailigen.call :listBatchSubscribe, params
               expect(resp["success_count"]).to eq(3)

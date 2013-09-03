@@ -22,10 +22,35 @@ Or install it yourself as:
 
 ## Usage
 
+Create your mailigen instance and call 'call' method. First param - API method, seconds param - parameteres (api_key included by default).
+
+Few examples:
+
     require "mailigen"
 
     mailigen = Mailigen::Api.new YOUR_MAILIGEN_API_KEY
+
+    # Ping to check apy key
     mailigen.call :ping # returns "Everything's Ok!" if API KEY is correct
+
+    # Creates a list
+    list_id = mailigen.call :listCreate, {title: "testListRspec", options: {permission_reminder: "Your in", notify_to: "foo@bar.com", subscription_notify: false}}
+
+    # Adds extra var to list
+    mailigen.call :listMergeVarAdd, {id: list_id, tag: "NAME", name: "Name of user"}
+
+    # Adds contacts batch to list
+    contacts_array_hash = {
+      "0" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'plain', NAME: 'Foo'}, 
+      "1" => {EMAIL: "bar@sample.com", EMAIL_TYPE: 'html',  NAME: 'Bar'}, 
+      "2" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'html',  NAME: 'Foo Dublicate'}
+    }
+    
+    resp = mailigen.call :listBatchSubscribe, {id: list_id, batch: contacts_array_hash, double_optin: false}
+
+    puts resp["success_count"] # Output should be 3
+
+For more: [Mailigen API documentation](http://dev.mailigen.com/display/AD/API+Documentation)
 
 ## Testing
 
