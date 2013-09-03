@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-Create your mailigen instance and call 'call' method. First param - API method, seconds param - parameteres (api_key included by default).
+Create your mailigen instance and call 'call' method. First param - API method, seconds param - parameters (api_key included by default).
 
 Few examples:
 
