@@ -7,7 +7,7 @@ describe Mailigen::Api do
       @invalid_mailigen = invalid_mailigen_obj
       @mailigen = valid_mailigen_obj
     end
-    
+
     context "initialize with no api key" do
 
       it "raise error" do
@@ -31,14 +31,14 @@ describe Mailigen::Api do
 
         it "return url" do
           obj = Mailigen::Api.new "fookey", true
-          expect(obj.api_url).to eq("https://api.mailigen.com/1.3/?output=json")
+          expect(obj.api_url).to eq("https://api.mailigen.com/1.5/?output=json")
         end
 
       end
 
       context "default (unsecure)" do
         it "return url" do
-          expect(@invalid_mailigen.api_url).to eq("http://api.mailigen.com/1.3/?output=json")
+          expect(@invalid_mailigen.api_url).to eq("http://api.mailigen.com/1.5/?output=json")
         end
       end
 
@@ -75,8 +75,8 @@ describe Mailigen::Api do
             @list_id = resp
 
             @lists_with_email = {
-              "0" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'plain', NAME: 'Foo'}, 
-              "1" => {EMAIL: "bar@sample.com", EMAIL_TYPE: 'html',  NAME: 'Bar'}, 
+              "0" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'plain', NAME: 'Foo'},
+              "1" => {EMAIL: "bar@sample.com", EMAIL_TYPE: 'html',  NAME: 'Bar'},
               "2" => {EMAIL: "foo@sample.com", EMAIL_TYPE: 'html',  NAME: 'Foo Dublicate'}
             }
           end

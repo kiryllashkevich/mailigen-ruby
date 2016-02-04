@@ -10,6 +10,6 @@ module Mailigen
   @@api_host = "api.mailigen.com"
 
   mattr_accessor :api_version
-  @@api_version = "1.3"
+  @@api_version = "1.5"
 
 end
