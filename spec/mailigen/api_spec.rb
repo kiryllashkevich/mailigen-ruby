@@ -30,15 +30,8 @@ describe Mailigen::Api do
       context "secure" do
 
         it "return url" do
-          obj = Mailigen::Api.new "fookey", true
+          obj = Mailigen::Api.new "fookey"
           expect(obj.api_url).to eq("https://api.mailigen.com/1.5/?output=json")
-        end
-
-      end
-
-      context "default (unsecure)" do
-        it "return url" do
-          expect(@invalid_mailigen.api_url).to eq("http://api.mailigen.com/1.5/?output=json")
         end
       end
 

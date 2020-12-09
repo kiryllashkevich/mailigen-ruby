@@ -1,8 +1,8 @@
 require "active_support/dependencies"
 
-require "mailigen/version"
-require "mailigen/no_api_key_error"
-require "mailigen/api"
+require_relative "mailigen/version"
+require_relative "mailigen/no_api_key_error"
+require_relative "mailigen/api"
 
 module Mailigen
 
